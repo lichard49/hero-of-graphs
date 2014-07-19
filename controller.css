@@ -1,0 +1,24 @@
+div.space
+{
+	font: 0px;
+	width: 0;
+}
+
+#equation
+{
+	font: 40px Helvetica, Arial, sans-serif;
+	width: 96%;
+	min-height: 46px;
+	margin-bottom: 10px;
+	padding: 5px;
+	border: 1px solid black;
+	
+}
+
+button
+{
+	font: 40px Helvetica, Arial, sans-serif;
+	margin-bottom: 4px;
+	width: 19%;
+	height: 100px;
+}

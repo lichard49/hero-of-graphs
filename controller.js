@@ -1,12 +1,30 @@
 $(document).ready(function()
 {
+	var firebase = new Firebase('https://lichard49test.firebaseIO.com/');
+	firebase.set(
+	{
+		'hero-of-graphs':
+		{
+			'15794':
+			{
+				'equation':'',
+				'go':'off',
+				'controller':'yes',
+				'name':'richard'
+			}
+		}
+	});
+
 	$('#go').click(function(event)
 	{
+		firebase.child('hero-of-graphs').child('15794').child('go').set('on');
+		var equation = $('#equation').html();
+		var stripped = equation.replace(/<space><\/space>/g,'');
+		firebase.child('hero-of-graphs').child('15794').child('equation').set(stripped);
 	});
 	$('#back').click(function(event)
 	{
 		var equation = $('#equation').html();
-		console.log(equation);
 		$('#equation').html(equation.substring(0, equation.lastIndexOf('<space></space>', equation.length-16)));
 	});
 

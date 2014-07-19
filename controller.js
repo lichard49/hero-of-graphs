@@ -1,26 +1,41 @@
 $(document).ready(function()
 {
 	var firebase = new Firebase('https://lichard49test.firebaseIO.com/');
-	firebase.set(
+	
+	window.onbeforeunload = function()
 	{
-		'hero-of-graphs':
+		firebase.child('hero-of-graphs').child(id).child('controller').set('no');
+	}
+	
+	var id;
+	ready(null);
+	function ready(snapshot)
+	{
+		if(snapshot === null || snapshot.val() === null)
 		{
-			'15794':
+			id = prompt("Please enter your ID", "");
+			if(id != null)
 			{
-				'equation':'',
-				'go':'off',
-				'controller':'yes',
-				'name':'richard'
+				firebase.child('hero-of-graphs').child(id).once('value', ready);
+			}
+			else
+			{
+				ready(null);
 			}
 		}
-	});
-
+		else
+		{
+			firebase.child('hero-of-graphs').child(id).child('controller').set('yes');
+			alert("Connected!");
+		}
+	}
+	
 	$('#go').click(function(event)
 	{
-		firebase.child('hero-of-graphs').child('15794').child('go').set('on');
+		//firebase.child('hero-of-graphs').child(id).child('go').set('on');
 		var equation = $('#equation').html();
 		var stripped = equation.replace(/<space><\/space>/g,'');
-		firebase.child('hero-of-graphs').child('15794').child('equation').set(stripped);
+		firebase.child('hero-of-graphs').child(id).child('equation').set(stripped);
 	});
 	$('#back').click(function(event)
 	{
@@ -62,7 +77,4 @@ $(document).ready(function()
 function appendEquation(val)
 {
 	$('#equation').html($('#equation').html() + val + '<space>');
-	/*$('#equation').html(function(i,el) {
-		return el.replace(/\ /g, '<div class="space">&nbsp;</div>');
-	});*/
 }

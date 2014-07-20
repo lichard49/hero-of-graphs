@@ -1,5 +1,33 @@
 <!doctype html>
 <html>
+
+<head>
+
+
+        <audio id="Beach" loop>
+            <source src="audio/Beach.mp3" type="audio/mpeg" />
+            Your browser does not support HTML5 audio.
+        </audio>
+		
+		
+		<audio id="Fanfare">
+            <source src="audio/Fanfare.mp3" type="audio/mpeg" />
+            Your browser does not support HTML5 audio.
+        </audio>
+
+		
+		<audio id="Explosion">
+            <source src="audio/Explosion.mp3" type="audio/mpeg" />
+            Your browser does not support HTML5 audio.
+        </audio>
+
+		<audio id="Launch">
+            <source src="audio/Launch.mp3" type="audio/mpeg" />
+            Your browser does not support HTML5 audio.
+        </audio>		
+		
+</head>
+
 	<body>
 		<canvas id="myCanvas" width=900 height=600 style="border: 1px solid black"></canvas>
 		<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
@@ -49,6 +77,15 @@
 			var bulletX = 80;var bulletY = canvas.height/1.2; var xoffset=bulletX;var yoffset=bulletY;
 			var envLoad=0;var charLoad=0;var bulletLoad=0; var obstacle1Load=0; var goalLoad=0;
 			
+		
+			//Background Music
+			var Beach = $('#Beach').get(0);
+				if (Beach.paused)
+					Beach.play();
+				
+				
+		
+		
 		
 			bulletSprite.id = "bullet";
 			//characterSprite.src = "http://img2.wikia.nocookie.net/__cb20120107141833/nintendo/en/images/thumb/7/77/Princess_Peach_NSMBW.png/276px-Princess_Peach_NSMBW.png";
@@ -121,7 +158,7 @@
 			console.log(unit);	
 			var system = [[0, 15, "5.6"],[8, 12, "5.2"],[12, 15, "4"]];
 
-
+			var playLaunch=1;
 			document.addEventListener("keydown", function(event)
 			{
 				switch(String.fromCharCode(event.keyCode))
@@ -294,7 +331,12 @@
 			{
 			if (goalHit){
 			context.drawImage(environmentSprite, 0, 0, canvas.width, canvas.height);
-				
+			
+			var Fanfare = $('#Fanfare').get(0);
+				if (Fanfare.paused)
+					Fanfare.play();
+
+					
 				
 				drawObstacles();
 				drawGoal();
@@ -351,6 +393,13 @@
 				//bulletY=canvas.height/1.25-math.eval(equation, scope);
 				
 				
+
+				var Launch = $('#Launch').get(0);
+				if (playLaunch==1)
+					Launch.play();
+				playLaunch=0;
+					
+				
 				// deciding what piece of the piecewise function to evaluate
 				for(var i = 0; i < equations.length; i+=1)
 				{
@@ -391,9 +440,19 @@
 					bulletX = xoffset;
 					bulletY = yoffset;
 					keepGoing = 0;
+				playLaunch=1;
+				var song1 = $('#Explosion').get(0);
+				if (song1.paused)
+					song1.play();
+				//else
+				//	song1.pause();
+
+					
 				}
 			}
 			
+
+	   
 			
 			function getParameterByName(name)
 			{

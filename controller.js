@@ -87,16 +87,23 @@ $(document).ready(function()
 	});
 	$('#x').click(function(event) { appendToEquation('x'); });
 	$('#sqrt').click(function(event) { appendToEquation('sqrt('); });
+	
+	// ===== add function box =====
 	var numEquations = 0;
 	$('#add').click(addEquation);
 	function addEquation(event)
 	{
+		// add box
 		$('#equations').append('<div id="equation'+numEquations+'" class="equation"><div class="bounds">x: \
 <div id="lower'+numEquations+'" class="lower">0<space></div> , \
-<div id="upper'+numEquations+'" class="upper">10<space></div></div></div>');
+<div id="upper'+numEquations+'" class="upper">20<space></div></div></div>');
 		$('#equation'+numEquations).click(function(event) { selectEquation(event.target.id); } );
+		
+		// update data
 		numEquations += 1;
 		selectEquation("equation"+(numEquations-1));
+		
+		// at most 3 equations
 		if(numEquations == 3)
 		{
 			$('#add').prop("disabled",true);

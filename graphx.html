@@ -9,7 +9,7 @@
 		<script>
 		
 			var firebase = new Firebase('https://lichard49test.firebaseIO.com/');
-			var id = 15794;
+			var id = getParameterByName('id');
 		
 		
 			firebase.child('hero-of-graphs').child(id).on('value', function(snapshot)
@@ -106,7 +106,7 @@
 			
 			var obs2X1=[obstacle1X1, obstacle2X1, obstacle3X1, obstacle4X1, obstacle5X1];
 			var obs2X2=[obstacle1X2, obstacle2X2, obstacle3X2, obstacle4X2, obstacle5X2];
-			var obs2Y1=[obstacle1Y1, obstacle2Y1, obstacle3Y1, obstacle4Y1, obstacle5Y1];
+			var obs2Y1=[obstacle1Y1, obstacle2Y1, obstacle3Y1, obstacle4Y1-70, obstacle5Y1-70];
 			var obs2Y2=[obstacle1Y2, obstacle2Y2, obstacle3Y2, obstacle4Y2, obstacle5Y2];
 			var keepGoing=0;
 			var goalHit=0;

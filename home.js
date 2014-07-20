@@ -1,7 +1,7 @@
 $(document).ready(function()
 {
 	var firebase = new Firebase('https://lichard49test.firebaseIO.com/');
-	var id = 15794;
+	var id = Math.floor((Math.random() * 1000000) + 1000);
 	
 	// ========================== Load screen ==============================
 
@@ -36,8 +36,8 @@ $(document).ready(function()
 		}
 		else
 		{
-			$('#console').html($('#console').html()+'<div id="message">Launch the <a target="_blank" href="controller.html?id=15794">controller</a> here</div>');
-			$('#console').html($('#console').html()+'<div id="message">Or login with user id 15794 at '+location.href+'</a></div>');
+			$('#console').html($('#console').html()+'<div id="message">Launch the <a target="_blank" href="controller.html?id='+id+'">controller</a> here</div>');
+			$('#console').html($('#console').html()+'<div id="message">Or login with user id '+id+' at '+location.href+'</a></div>');
 			initial = 1;
 		}
 	});
@@ -46,9 +46,9 @@ $(document).ready(function()
 	{
 		$('#console').html('<div id="message">Controller connected!</div>');
 		$('#console').html($('#console').html()+'<div id="message">Choose a level:</div>');
-		$('#console').html($('#console').html()+'<a href="graphx.html?level=easy">Easy</a><br>');
-		$('#console').html($('#console').html()+'<a href="graphx.html?level=medium">Medium</a><br>');
-		$('#console').html($('#console').html()+'<a href="graphx.html?level=hard">Hard</a><br>');
+		$('#console').html($('#console').html()+'<a href="graphx.html?level=easy&id='+id+'">Easy</a><br>');
+		$('#console').html($('#console').html()+'<a href="graphx.html?level=medium&id='+id+'">Medium</a><br>');
+		$('#console').html($('#console').html()+'<a href="graphx.html?level=hard&id='+id+'">Hard</a><br>');
 		firebase.child('hero-of-graphs').child(id).child('equation').on('value', function(snapshot)
 		{
 			if(snapshot.val() != null && snapshot.val() != "")

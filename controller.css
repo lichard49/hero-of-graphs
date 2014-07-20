@@ -10,6 +10,7 @@ div.space
 	font: 50px Helvetica, Arial, sans-serif;
 	width: 94%;
 	min-height: 60px;
+	height: 60px;
 	margin-bottom: 10px;
 	padding: 15px;
 	border: 1px solid black;
@@ -22,16 +23,26 @@ div.space
 	float: right;
 }
 
+.equation .bounds .lower
+{
+	background-color: transparent !important;
+}
+
 .equation .bounds .lower, .equation .bounds .upper
 {
 	display: inline-block;
-	min-width: 20px;
 	background-color: #EEEEEE;
 	padding-left: 10px;
 	padding-right: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: auto;
+	margin-bottom: auto;
+	min-width: 28px;
+	min-height: 59px;
 }
 
-.selected, .equation .bounds .lower .selected, .equation .bounds .upper .selected
+.selected, .equation .bounds .upper .selected
 {
 	background-color: #FFFFFF !important;
 }

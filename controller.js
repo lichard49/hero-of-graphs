@@ -80,12 +80,31 @@ $(document).ready(function()
 		}
 	});
 	
+	// ===== back button =====
 	$('#back').click(function(event)
 	{
 		var equation = $('.selected').html();
-		$('.selected').html(equation.substring(0, equation.lastIndexOf('<space></space>', equation.length-16)));
+		console.log(equation);
+		var space = equation.lastIndexOf('<space></space>');
+		var bounds = equation.lastIndexOf('</div>');
+		if(space >= bounds)
+		{
+			$('.selected').html(equation.substring(0, space-1));
+			if($('.selected').attr('class').indexOf('upper') > -1)
+			{
+				var id = $('.selected').attr('id');
+				id = Number(id.substring(id.indexOf('upper')+5))+1;
+				if(id > -1 && id < numEquations)
+				{
+					$('#lower'+id).html($('.selected').html() + '<space>');
+				}
+			}
+		}
 	});
+	
+	// ===== x button =====
 	$('#x').click(function(event) { appendToEquation('x'); });
+	// ===== sqrt button =====
 	$('#sqrt').click(function(event) { appendToEquation('sqrt('); });
 	
 	// ===== add function box =====
@@ -94,10 +113,22 @@ $(document).ready(function()
 	function addEquation(event)
 	{
 		// add box
-		$('#equations').append('<div id="equation'+numEquations+'" class="equation"><div class="bounds">x: \
-<div id="lower'+numEquations+'" class="lower">0<space></div> , \
-<div id="upper'+numEquations+'" class="upper">20<space></div></div></div>');
-		$('#equation'+numEquations).click(function(event) { selectEquation(event.target.id); } );
+		var startingLower = 0;
+		if(numEquations > 0)
+		{
+			startingLower = Number($('#upper'+(numEquations-1)).html().replace(/<space><\/space>/g,''));
+			console.log(startingLower);
+		}
+		$('#equations').append('<div id="equation'+numEquations+'" class="equation"><div class="bounds">x: [\
+<div id="lower'+numEquations+'" class="lower">'+startingLower+'<space></div>, \
+<div id="upper'+numEquations+'" class="upper">20<space></div>]</div></div>');
+		$('#equation'+numEquations).click(function(event)
+		{
+			if(event.target.id.indexOf("lower") == -1)
+			{
+				selectEquation(event.target.id);
+			}
+		});
 		
 		// update data
 		numEquations += 1;
@@ -140,23 +171,32 @@ $(document).ready(function()
 	$('#dot').click(function(event) { appendToEquation('.'); });
 	$('#negative').click(function(event) { appendToEquation('-'); });
 	$('#plus').click(function(event) { appendToEquation('+') });
+	
+	function appendToEquation(val)
+	{
+		$('.selected').html($('.selected').html() + val + '<space>');
+		if($('.selected').attr('class').indexOf('upper') > -1)
+		{
+			var id = $('.selected').attr('id');
+			id = Number(id.substring(id.indexOf('upper')+5))+1;
+			if(id > -1 && id < numEquations)
+			{
+				$('#lower'+id).html($('.selected').html() + '<space>');
+			}
+		}
+	}
+
+	function selectEquation(index)
+	{
+		console.log("select equation " + index);
+		$('.selected').toggleClass("selected");
+		$('#'+index).toggleClass("selected");
+	}
+
+	function getParameterByName(name)
+	{
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
 });
-
-function appendToEquation(val)
-{
-	$('.selected').html($('.selected').html() + val + '<space>');
-}
-
-function selectEquation(index)
-{
-	console.log("select equation " + index);
-	$('.selected').toggleClass("selected");
-	$('#'+index).toggleClass("selected");
-}
-
-function getParameterByName(name)
-{
-	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
-	return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}

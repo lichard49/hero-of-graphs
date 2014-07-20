@@ -24,7 +24,7 @@ $(document).ready(function()
 		});
 		*/
 		var user = firebase.child('hero-of-graphs').child(id);
-		user.child('equation').set('');
+		//user.child('equation').set('');
 		//user.child('go').set('off');
 		user.child('controller').set('no');
 		user.child('name').set('richard');

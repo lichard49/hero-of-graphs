@@ -25,6 +25,7 @@ div.space
 .equation .bounds .lower, .equation .bounds .upper
 {
 	display: inline-block;
+	min-width: 20px;
 	background-color: #EEEEEE;
 	padding-left: 10px;
 	padding-right: 10px;

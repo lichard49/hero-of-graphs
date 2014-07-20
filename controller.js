@@ -15,7 +15,10 @@ $(document).ready(function()
 	{
 		if(snapshot === null || snapshot.val() === null)
 		{
-			id = prompt("Please enter your ID", "");
+			id = getParameterByName('id');
+			if(id != null && id != '') { id = Number(id); }
+			else{ id = prompt("Please enter your ID", ""); }
+			
 			if(id != null)
 			{
 				firebase.child('hero-of-graphs').child(id).once('value', ready);
@@ -36,19 +39,47 @@ $(document).ready(function()
 	$('#go').click(function(event)
 	{
 		//firebase.child('hero-of-graphs').child(id).child('go').set('on');
+		var equations = [];
+		var error = false;
 		for(var i = 0; i < numEquations; i+=1)
 		{
 			var equation = $('.equation').eq(i).html();
 			var stripped = equation.replace(/<space><\/space>/g,'');
-			var equationAndBounds = "";
-			equationAndBounds += $('.equation').eq(i).find('.lower').html().replace(/<space><\/space>/g,'') + ",";
-			equationAndBounds += $('.equation').eq(i).find('.upper').html().replace(/<space><\/space>/g,'') + ",";
-			equationAndBounds += stripped.replace(/<div class="bounds">.*<\/div>/g, '')
-			console.log(equationAndBounds);
-			firebase.child('hero-of-graphs').child(id).child('equation'+i).set(equationAndBounds);
+			
+			var lowerBound = $('.equation').eq(i).find('.lower').html().replace(/<space><\/space>/g,'');
+			var upperBound = $('.equation').eq(i).find('.upper').html().replace(/<space><\/space>/g,'');
+			var eq = stripped.replace(/<div class="bounds">.*<\/div>/g, '')
+			
+			equations[i] = [lowerBound, upperBound, eq];
+			//var equationAndBounds = lowerBound + "," + upperBound + "," + eq;
+			console.log(equations[i]);
+			//firebase.child('hero-of-graphs').child(id).child('equation'+i).set(equationAndBounds);
+			
+			console.log(equations);
+			if(math.eval(equations[0][2], {x: Number(equations[0][0])}) != 0)
+			{
+				alert("Equations must start at the origin (0,0)");
+				error = true;
+				break;
+			}
+			/*if(i > 0 && math.eval(equations[i-1][2], {x:Number(equations[i-1][1])}) != math.eval(equations[i][2], {x:Number(equations[i][0])}))
+			{
+				alert("Functions must be continuous... check functions " + (i-1) + " and " + i);
+				error = true;
+				break;
+			}*/
 		}
-		firebase.child('hero-of-graphs').child(id).child('numEquations').set(numEquations);
+		
+		if(!DEBUG && !error)
+		{
+			for(var i = 0; i < numEquations; i+=1)
+			{
+				firebase.child('hero-of-graphs').child(id).child('equation'+i).set(equations[i][0] + "," + equations[i][1] + "," + equations[i][2]);
+			}
+			firebase.child('hero-of-graphs').child(id).child('numEquations').set(numEquations);
+		}
 	});
+	
 	$('#back').click(function(event)
 	{
 		var equation = $('.selected').html();
@@ -66,6 +97,10 @@ $(document).ready(function()
 		$('#equation'+numEquations).click(function(event) { selectEquation(event.target.id); } );
 		numEquations += 1;
 		selectEquation("equation"+(numEquations-1));
+		if(numEquations == 3)
+		{
+			$('#add').prop("disabled",true);
+		}
 	}
 	addEquation(null);
 	
@@ -110,4 +145,11 @@ function selectEquation(index)
 	console.log("select equation " + index);
 	$('.selected').toggleClass("selected");
 	$('#'+index).toggleClass("selected");
+}
+
+function getParameterByName(name)
+{
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+	return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }

@@ -62,12 +62,26 @@ $(document).ready(function()
 				error = true;
 				break;
 			}
-			/*if(i > 0 && math.eval(equations[i-1][2], {x:Number(equations[i-1][1])}) != math.eval(equations[i][2], {x:Number(equations[i][0])}))
+			if(i > 0 && math.eval(equations[i-1][2], {x:Number(equations[i-1][1])}) != math.eval(equations[i][2], {x:Number(equations[i][0])}))
 			{
 				alert("Functions must be continuous... check functions " + (i-1) + " and " + i);
 				error = true;
 				break;
-			}*/
+			}
+			
+			/*
+			
+			if(i > 0 && math.eval(equations[i-1][2], {x:Number(equations[i-1][1])}) > 1.05*math.eval(equations[i][2], {x:Number(equations[i][0])}))
+			{
+				if(i > 0 && math.eval(equations[i-1][2], {x:Number(equations[i-1][1])}) < 0.95*math.eval(equations[i][2], {x:Number(equations[i][0])}))
+			{
+				alert("Functions must be continuous... check functions " + (i-1) + " and " + i);
+				error = true;
+				break;
+			}
+			}
+			
+			*/
 		}
 		
 		if(!DEBUG && !error)

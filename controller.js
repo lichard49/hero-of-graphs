@@ -2,7 +2,7 @@ $(document).ready(function()
 {
 	var DEBUG = false;
 
-	var firebase = new Firebase('https://lichard49test.firebaseIO.com/');
+	var firebase = new Firebase('https://hero-of-graphs.firebaseIO.com/');
 	
 	window.onbeforeunload = function()
 	{

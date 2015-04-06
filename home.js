@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-	var firebase = new Firebase('https://lichard49test.firebaseIO.com/');
+	var firebase = new Firebase('https://hero-of-graphs.firebaseIO.com/');
 	var id = Math.floor((Math.random() * 1000000) + 1000);
 	
 	// ========================== Load screen ==============================

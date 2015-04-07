@@ -37,10 +37,15 @@ $(document).ready(function()
 		else
 		{
 			$('#console').html($('#console').html()+'<div id="message">Launch the <a target="_blank" href="controller.html?id='+id+'">controller</a> here</div>');
-			$('#console').html($('#console').html()+'<div id="message">Or login with user id '+id+' at '+location.href+'</a></div>');
+			$('#console').html($('#console').html()+'<div id="message">Or login with user id '+id+' at '+addControllerToURL(location.href)+'</a></div>');
 			initial = 1;
 		}
 	});
+
+	function addControllerToURL(url)
+	{
+		return url.substring(0, url.lastIndexOf("/")+1) + "controller.html";
+	}
 	
 	function showLevelSelecter()
 	{
